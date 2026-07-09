@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white text-ink font-body;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+.section-label {
+  @apply text-forest text-sm tracking-widest uppercase font-medium relative inline-flex items-center gap-3;
+}
+.section-label::before,
+.section-label::after {
+  content: '';
+  @apply h-px w-8 bg-forest/40;
+}
+
+.btn-primary {
+  @apply bg-forest text-white px-6 py-3 rounded-full hover:bg-forest-dark transition text-sm font-medium;
+}
+.btn-outline {
+  @apply border border-forest text-forest px-6 py-3 rounded-full hover:bg-forest hover:text-white transition text-sm font-medium;
+}
+
+.field {
+  @apply border border-ink/15 rounded-lg px-3 py-2.5 w-full text-sm placeholder:text-ink/35 focus:outline-none focus:border-forest;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
