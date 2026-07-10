@@ -37,6 +37,10 @@ const translations = {
     coffee_menu_heading: 'Use The Tips & Recipes From Our Chefs',
     reservation: 'Reservation',
     contact_us_btn: 'Contact Us',
+    working_hours: 'Working Hours',
+    sun_to_tue: 'Sunday To Tuesday',
+    fri_to_sat: 'Friday To Saturday',
+    hours_range: '09:00 AM - 10:00 PM',
 
     contact_us: 'Contact Us',
     get_in_touch: 'Get In Touch',
@@ -172,6 +176,8 @@ const translations = {
     region_ahmadi: 'Ahmadi',
     region_jahra: 'Jahra',
     region_mubarak: 'Mubarak Al-Kabeer',
+
+    find_us_on_map: 'Find Us On The Map',
   },
   ar: {
     nav_home: 'الرئيسية',
@@ -207,6 +213,10 @@ const translations = {
     coffee_menu_heading: 'نصائح ووصفات من طهاتنا',
     reservation: 'الحجز',
     contact_us_btn: 'اتصل بنا',
+    working_hours: 'ساعات العمل',
+    sun_to_tue: 'الأحد إلى الثلاثاء',
+    fri_to_sat: 'الجمعة إلى السبت',
+    hours_range: '09:00 ص - 10:00 م',
 
     contact_us: 'اتصل بنا',
     get_in_touch: 'تواصل معنا',
@@ -342,6 +352,8 @@ const translations = {
     region_ahmadi: 'الأحمدي',
     region_jahra: 'الجهراء',
     region_mubarak: 'مبارك الكبير',
+
+    find_us_on_map: 'اعثر علينا على الخريطة',
   },
 };
 
