@@ -1,11 +1,13 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import api from '../services/api';
 import { useAuth } from './AuthContext';
+import { useUI } from './UIContext';
 
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
   const { user } = useAuth();
+  const { openCart } = useUI();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +27,7 @@ export function CartProvider({ children }) {
   async function addItem(menu_item_id, quantity = 1, notes) {
     const { data } = await api.post('/cart/items', { menu_item_id, quantity, notes });
     setItems(data);
+    openCart();
   }
 
   async function updateItem(cartItemId, quantity) {

@@ -8,14 +8,13 @@ import { useI18n } from '../context/I18nContext';
 import { IconChevron } from '../components/icons';
 import DishCard from '../components/DishCard';
 
-const CALORIE_SLOTS = new Array(7).fill('480');
+const CALORIE_SLOTS = new Array(8).fill('480');
 
 export default function ProductDetails() {
   const { slug } = useParams();
   const [item, setItem] = useState(null);
   const [related, setRelated] = useState([]);
   const [activeImage, setActiveImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [status, setStatus] = useState('');
   const { user } = useAuth();
   const { addItem } = useCart();
@@ -37,7 +36,7 @@ export default function ProductDetails() {
 
   async function handleAddToCart() {
     if (!user) { openAuth('login'); return; }
-    await addItem(item.id, quantity);
+    await addItem(item.id, 1);
     setStatus(t('added_to_cart'));
   }
 
@@ -59,20 +58,20 @@ export default function ProductDetails() {
             </>
           )}
           <IconChevron className="rtl:rotate-180" width="14" height="14" />
-          <span className="text-ink">{item.name}</span>
+          <span className="text-ink font-medium">{item.category_name} {t('details')}</span>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pb-16 grid md:grid-cols-2 gap-14">
         <div>
-          <div className="aspect-[4/3] rounded-2xl bg-mint overflow-hidden">
+          <div className="aspect-[6/5] rounded-2xl bg-mint overflow-hidden">
             {images[activeImage] && <img src={images[activeImage]} alt={item.name} className="w-full h-full object-cover" />}
           </div>
           {images.length > 1 && (
             <div className="flex gap-3 mt-3">
               {images.map((img, idx) => (
                 <button key={idx} onClick={() => setActiveImage(idx)}
-                  className={`w-20 h-16 rounded-lg overflow-hidden border-2 ${activeImage === idx ? 'border-forest' : 'border-transparent'}`}>
+                  className={`flex-1 aspect-[3/2] rounded-lg overflow-hidden border-2 ${activeImage === idx ? 'border-forest' : 'border-transparent'}`}>
                   <img src={img} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
@@ -83,7 +82,7 @@ export default function ProductDetails() {
         <div>
           <span className="inline-block bg-tag text-forest text-sm px-3.5 py-1.5 rounded-full">{item.category_name}</span>
           <h1 className="font-display text-3xl sm:text-4xl mt-4">
-            {item.name} <span className="text-ink/30">•</span> <span className="text-forest">{Number(item.price).toFixed(0)} Kd</span>
+            {item.name} <span className="text-ink/30">•</span> {Number(item.price).toFixed(0)} Kd
           </h1>
           <p className="text-ink/60 text-lg mt-5">{item.description}</p>
 
@@ -101,20 +100,13 @@ export default function ProductDetails() {
             ))}
           </div>
 
-          <p className="bg-mint/40 text-ink/70 text-sm italic rounded-xl px-5 py-4 mt-6">
+          <p className="bg-mint/40 text-ink/70 text-sm text-center rounded-xl px-5 py-4 mt-6">
             &ldquo;{t('nutrition_quote')}&rdquo;
           </p>
 
-          <div className="flex items-center gap-5 mt-8">
-            <div className="flex items-center border border-ink/15 rounded-full">
-              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="px-3.5 py-2 text-lg">-</button>
-              <span className="px-3.5 text-lg">{quantity}</span>
-              <button onClick={() => setQuantity((q) => q + 1)} className="px-3.5 py-2 text-lg">+</button>
-            </div>
-            <button onClick={handleAddToCart} disabled={!item.is_available} className="btn-primary flex-1 disabled:opacity-50">
-              {item.is_available ? t('add_to_cart') : t('unavailable')}
-            </button>
-          </div>
+          <button onClick={handleAddToCart} disabled={!item.is_available} className="btn-primary w-full mt-8 disabled:opacity-50">
+            {item.is_available ? t('add_to_cart') : t('unavailable')}
+          </button>
           {status && <p className="text-base text-forest mt-4">{status}</p>}
         </div>
       </div>

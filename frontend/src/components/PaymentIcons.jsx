@@ -1,26 +1,22 @@
-// Small stylized payment-method badges (not official brand marks, just
-// recognizable colored chips so the checkout list is easy to scan).
-const base = 'w-8 h-6 rounded flex items-center justify-center text-[9px] font-bold text-white shrink-0 leading-none';
+// Payment-method badges. KNET, Apple Pay, Visa, Mastercard and Cash use the
+// real uploaded brand assets; Samsung Pay has no provided asset yet so it
+// keeps a simple styled placeholder chip.
+const base = 'w-9 h-7 rounded flex items-center justify-center text-[9px] font-bold text-white shrink-0 leading-none';
 
 export const KnetBadge = () => (
-  <img src="/icons/knet.svg" alt="KNET" className="w-8 h-8 rounded shrink-0" />
+  <img src="/icons/knet.svg" alt="KNET" className="w-9 h-9 rounded shrink-0" />
 );
 
 export const MastercardBadge = () => (
-  <span className="w-8 h-6 rounded bg-ink/5 flex items-center justify-center shrink-0">
-    <span className="relative w-4 h-4">
-      <span className="absolute left-0 top-0 w-3 h-3 rounded-full bg-red-500/90" />
-      <span className="absolute right-0 top-0 w-3 h-3 rounded-full bg-yellow-500/80 mix-blend-multiply" />
-    </span>
-  </span>
+  <img src="/icons/mastercard.svg" alt="Mastercard" className="w-9 h-9 rounded shrink-0" />
 );
 
 export const VisaBadge = () => (
-  <span className={`${base} bg-blue-900 italic`}>VISA</span>
+  <img src="/icons/visa.svg" alt="Visa" className="w-9 h-9 rounded shrink-0" />
 );
 
 export const ApplePayBadge = () => (
-  <span className={`${base} bg-ink`}>Pay</span>
+  <img src="/icons/apple-pay.svg" alt="Apple Pay" className="w-9 h-9 rounded shrink-0" />
 );
 
 export const SamsungPayBadge = () => (
@@ -28,5 +24,5 @@ export const SamsungPayBadge = () => (
 );
 
 export const CashBadge = () => (
-  <span className={`${base} bg-forest`}>$</span>
+  <img src="/icons/cash.svg" alt="Cash" className="w-9 h-9 rounded shrink-0 p-1 bg-forest/5" />
 );

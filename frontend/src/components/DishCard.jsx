@@ -27,7 +27,7 @@ export default function DishCard({ item }) {
         </span>
         <div className="flex items-baseline justify-between gap-2">
           <span className="font-medium text-ink text-base">{item.name}</span>
-          <span className="text-forest text-base font-medium whitespace-nowrap">{Number(item.price).toFixed(0)} Kd</span>
+          <span className="text-ink text-base font-medium whitespace-nowrap">{Number(item.price).toFixed(0)} Kd</span>
         </div>
         {item.description && (
           <p className="text-sm text-ink/50 mt-1.5 line-clamp-2">{item.description}</p>
