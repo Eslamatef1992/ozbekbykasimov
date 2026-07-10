@@ -85,6 +85,20 @@ export const IconPhone = (props) => (
   </svg>
 );
 
+export const IconTrash = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="16" height="16" {...props}>
+    <path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m3 0-1 13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 7h14Z" />
+    <path d="M10 11v6M14 11v6" />
+  </svg>
+);
+
+export const IconTag = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" width="18" height="18" {...props}>
+    <path d="M3 11.5 12.5 2H20v7.5L10.5 19 3 11.5Z" />
+    <circle cx="15.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
 export const IconBoxEmpty = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="40" height="40" {...props}>
     <path d="M3.5 8.2 12 4l8.5 4.2v7.6L12 20 3.5 15.8V8.2Z" />

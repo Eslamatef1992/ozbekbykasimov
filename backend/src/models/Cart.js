@@ -3,8 +3,10 @@ const { pool } = require('../config/db');
 const Cart = {
   async listForUser(userId) {
     const [rows] = await pool.query(
-      `SELECT ci.id, ci.quantity, ci.notes, m.id AS menu_item_id, m.name, m.price, m.image_url, m.is_available
+      `SELECT ci.id, ci.quantity, ci.notes, m.id AS menu_item_id, m.name, m.price, m.image_url, m.is_available,
+       c.name AS category_name
        FROM cart_items ci JOIN menu_items m ON m.id = ci.menu_item_id
+       LEFT JOIN categories c ON c.id = m.category_id
        WHERE ci.user_id = ? ORDER BY ci.created_at DESC`,
       [userId]
     );
