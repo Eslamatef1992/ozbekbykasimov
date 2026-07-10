@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 
+// Instagram icon still pending from Figma - drop it in /public/icons/instagram.svg
+// and add { label: 'Instagram', href: '#', icon: '/icons/instagram.svg' } below once you have it.
 const socials = [
-  { label: 'Facebook', href: '#' },
-  { label: 'Instagram', href: '#' },
-  { label: 'X', href: '#' },
+  { label: 'Facebook', href: '#', icon: '/icons/facebook.svg' },
+  { label: 'X', href: '#', icon: '/icons/x.svg' },
 ];
 
 export default function Footer() {
@@ -11,21 +12,15 @@ export default function Footer() {
     <footer className="bg-mint mt-20">
       <div className="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
         <div>
-          <div className="flex items-center gap-2 font-display text-ink mb-3">
-            <span className="w-9 h-9 rounded-full border border-forest/60 flex items-center justify-center text-[10px] tracking-widest">OZ</span>
-            <span className="flex flex-col leading-none">
-              <span className="text-lg tracking-[0.15em]">OZBEK</span>
-              <span className="text-[10px] tracking-[0.3em] text-forest -mt-0.5">BY KASIMOV</span>
-            </span>
-          </div>
+          <img src="/logo.svg" alt="Ozbek By Kasimov" className="h-10 w-auto mb-3" />
           <p className="text-sm text-ink/60 max-w-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
           <div className="mt-5">
             <div className="text-xs tracking-widest text-ink/50 mb-2">FOLLOW US</div>
             <div className="flex gap-2">
               {socials.map((s) => (
                 <a key={s.label} href={s.href} aria-label={s.label}
-                  className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-forest text-xs hover:bg-forest hover:text-white transition">
-                  {s.label[0]}
+                  className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition">
+                  <img src={s.icon} alt="" className="w-4 h-4" />
                 </a>
               ))}
             </div>

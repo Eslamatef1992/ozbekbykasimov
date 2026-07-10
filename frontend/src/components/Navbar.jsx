@@ -34,12 +34,8 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Link to="/" className="flex items-center justify-center gap-2 font-display text-ink">
-          <span className="w-9 h-9 rounded-full border border-forest/60 flex items-center justify-center text-[10px] tracking-widest">OZ</span>
-          <span className="flex flex-col leading-none items-start">
-            <span className="text-lg tracking-[0.15em]">OZBEK</span>
-            <span className="text-[10px] tracking-[0.3em] text-forest -mt-0.5">BY KASIMOV</span>
-          </span>
+        <Link to="/" className="flex items-center justify-center">
+          <img src="/logo.svg" alt="Ozbek By Kasimov" className="h-10 w-auto" />
         </Link>
 
         <div className="flex items-center justify-end gap-4">

@@ -17,7 +17,10 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex">
       <aside className="w-60 bg-navy text-white flex flex-col">
-        <div className="px-6 py-5 font-semibold text-lg border-b border-white/10">Ozbek Admin</div>
+        <div className="px-6 py-5 border-b border-white/10 flex items-center gap-2">
+          <img src="/logo.svg" alt="Ozbek By Kasimov" className="h-8 w-auto brightness-0 invert" />
+          <span className="text-xs tracking-widest text-white/70">ADMIN</span>
+        </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
           {links.map((l) => (
             <NavLink
