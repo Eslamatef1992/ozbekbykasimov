@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthDrawer from './components/AuthDrawer';
+import CartDrawer from './components/CartDrawer';
 
 import Home from './pages/Home';
 import Menu from './pages/Menu';
@@ -41,6 +42,7 @@ export default function App() {
       </main>
       <Footer />
       <AuthDrawer />
+      <CartDrawer />
     </div>
   );
 }

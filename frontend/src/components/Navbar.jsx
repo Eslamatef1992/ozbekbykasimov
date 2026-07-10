@@ -9,7 +9,7 @@ import { IconMail, IconUser, IconBag, IconMenu, IconClose } from './icons';
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { count } = useCart();
-  const { openAuth } = useUI();
+  const { openAuth, openCart } = useUI();
   const { t, locale, toggleLocale } = useI18n();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,12 +61,12 @@ export default function Navbar() {
           >
             <span aria-hidden>🇰🇼</span> {locale === 'en' ? 'AR' : 'EN'}
           </button>
-          <Link to="/cart" className="relative text-ink/70 hover:text-forest" aria-label={t('cart')}>
+          <button onClick={openCart} className="relative text-ink/70 hover:text-forest" aria-label={t('cart')}>
             <IconBag width="22" height="22" />
             {count > 0 && (
               <span className="absolute -top-2 -right-2 bg-forest text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">{count}</span>
             )}
-          </Link>
+          </button>
           <Link to="/contact" className="hidden sm:inline-block text-ink/70 hover:text-forest" aria-label={t('nav_contact')}>
             <IconMail width="22" height="22" />
           </Link>

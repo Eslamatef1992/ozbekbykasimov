@@ -204,6 +204,8 @@ const translations = {
     nutrition_quote: '2,000 Calories A Day Is Used For General Nutrition Advice, But Calorie Needs Vary.',
     remove: 'Remove',
     invalid_coupon: 'This coupon code is not valid.',
+    cart_is_empty: 'Your Cart Is Empty',
+    to_complete_payment: 'To Complete Payment Process',
   },
   ar: {
     nav_home: 'الرئيسية',
@@ -406,6 +408,8 @@ const translations = {
     nutrition_quote: 'يُستخدم معدل 2000 سعرة حرارية يومياً كإرشاد غذائي عام، وتختلف الاحتياجات حسب كل شخص.',
     remove: 'إزالة',
     invalid_coupon: 'كود الكوبون غير صالح.',
+    cart_is_empty: 'سلتك فارغة',
+    to_complete_payment: 'لإتمام عملية الدفع',
   },
 };
 
