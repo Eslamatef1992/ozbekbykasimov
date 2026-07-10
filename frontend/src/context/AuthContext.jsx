@@ -10,11 +10,17 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem('ozbek_token');
     if (!token) { setLoading(false); return; }
-    api.get('/auth/me')
-      .then((res) => setUser(res.data.user))
+    api.get('/users/me')
+      .then((res) => setUser(res.data))
       .catch(() => localStorage.removeItem('ozbek_token'))
       .finally(() => setLoading(false));
   }, []);
+
+  async function refreshUser() {
+    const { data } = await api.get('/users/me');
+    setUser(data);
+    return data;
+  }
 
   async function login(email, password) {
     const { data } = await api.post('/auth/login', { email, password });
@@ -36,7 +42,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, setUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,62 +1,52 @@
-import { useEffect, useState } from 'react';
-import api from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useI18n } from '../context/I18nContext';
+import { IconChevron } from '../components/icons';
+import InfoPasswordTab from '../components/profile/InfoPasswordTab';
+import AddressTab from '../components/profile/AddressTab';
+import OrdersTab from '../components/profile/OrdersTab';
+
+const TABS = ['info', 'address', 'orders'];
 
 export default function Profile() {
-  const { user } = useAuth();
   const { t } = useI18n();
-  const [orders, setOrders] = useState([]);
-  const [reservations, setReservations] = useState([]);
+  const [tab, setTab] = useState('info');
 
-  const statusLabel = {
-    pending: t('status_pending'),
-    confirmed: t('status_confirmed'),
-    preparing: t('status_preparing'),
-    out_for_delivery: t('status_out_for_delivery'),
-    completed: t('status_completed'),
-    cancelled: t('status_cancelled'),
+  const tabLabel = {
+    info: t('tab_info_password'),
+    address: t('tab_address'),
+    orders: t('tab_orders'),
   };
 
-  useEffect(() => {
-    api.get('/orders/mine').then((res) => setOrders(res.data));
-    api.get('/reservations/mine').then((res) => setReservations(res.data));
-  }, []);
-
   return (
-    <div className="max-w-3xl mx-auto px-6 py-14">
-      <h1 className="page-heading mb-2">{t('my_profile')}</h1>
-      <p className="text-ink/60 text-base mb-10">{user?.full_name} - {user?.email}</p>
-
-      <h2 className="font-medium text-xl mb-5">{t('order_history')}</h2>
-      <div className="space-y-3 mb-12">
-        {orders.map((o) => (
-          <div key={o.id} className="border border-border rounded-xl p-5 bg-white flex justify-between">
-            <div>
-              <div className="font-medium text-base">{t('order_number')} #{o.id}</div>
-              <div className="text-sm text-ink/60">{new Date(o.created_at).toLocaleString()}</div>
-            </div>
-            <div className="text-right rtl:text-left">
-              <div className="text-forest text-lg">{Number(o.total).toFixed(0)} Kd</div>
-              <div className="text-sm text-ink/60">{statusLabel[o.status] || o.status}</div>
-            </div>
-          </div>
-        ))}
-        {orders.length === 0 && <p className="text-ink/50 text-base">{t('no_orders_yet')}</p>}
+    <div className="max-w-6xl mx-auto px-6 py-14">
+      <div className="flex items-center gap-2 text-sm text-ink/50 mb-10">
+        <Link to="/" className="hover:text-forest">{t('nav_home')}</Link>
+        <IconChevron className="rtl:rotate-180" width="14" height="14" />
+        <span className="text-ink">{t('my_profile')}</span>
       </div>
 
-      <h2 className="font-medium text-xl mb-5">{t('my_reservations')}</h2>
-      <div className="space-y-3">
-        {reservations.map((r) => (
-          <div key={r.id} className="border border-border rounded-xl p-5 bg-white flex justify-between">
-            <div>
-              <div className="font-medium text-base">{r.reservation_date} {t('at_time')} {r.reservation_time}</div>
-              <div className="text-sm text-ink/60">{t('party_of')} {r.party_size}</div>
-            </div>
-            <div className="text-sm text-ink/60 self-center">{r.status}</div>
-          </div>
-        ))}
-        {reservations.length === 0 && <p className="text-ink/50 text-base">{t('no_reservations_yet')}</p>}
+      <div className="grid md:grid-cols-[260px_1fr] gap-8 items-start">
+        <div className="bg-mint/50 rounded-2xl overflow-hidden">
+          {TABS.map((key) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`w-full flex items-center justify-between px-5 py-4 text-base border-b border-forest/10 last:border-b-0 text-left rtl:text-right transition-colors ${
+                tab === key ? 'bg-white text-ink font-medium' : 'text-ink/60 hover:text-ink'
+              }`}
+            >
+              {tabLabel[key]}
+              <IconChevron className="rtl:rotate-180 text-ink/40" width="16" height="16" />
+            </button>
+          ))}
+        </div>
+
+        <div>
+          {tab === 'info' && <InfoPasswordTab />}
+          {tab === 'address' && <AddressTab />}
+          {tab === 'orders' && <OrdersTab />}
+        </div>
       </div>
     </div>
   );

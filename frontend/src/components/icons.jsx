@@ -72,3 +72,12 @@ export const IconChevron = ({ dir = 'right', ...props }) => (
     <path d="m9 6 6 6-6 6" />
   </svg>
 );
+
+export const IconBoxEmpty = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="40" height="40" {...props}>
+    <path d="M3.5 8.2 12 4l8.5 4.2v7.6L12 20 3.5 15.8V8.2Z" />
+    <path d="M3.5 8.2 12 12m0 0 8.5-3.8M12 12v8" />
+    <circle cx="18.5" cy="16.5" r="4.2" fill="currentColor" fillOpacity="0.12" stroke="currentColor" />
+    <path d="m16.9 15 3.2 3M20.1 15l-3.2 3" strokeWidth="1.3" />
+  </svg>
+);

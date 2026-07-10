@@ -1,5 +1,8 @@
 const { pool } = require('../config/db');
 
+const PROFILE_FIELDS =
+  'id, full_name, email, phone, role, is_active, region, block_number, street_name, building_number, floor, flat, created_at';
+
 const User = {
   async create({ full_name, email, phone, password_hash, role = 'customer' }) {
     const [result] = await pool.query(
@@ -15,10 +18,7 @@ const User = {
   },
 
   async findById(id) {
-    const [rows] = await pool.query(
-      'SELECT id, full_name, email, phone, role, is_active, created_at FROM users WHERE id = ?',
-      [id]
-    );
+    const [rows] = await pool.query(`SELECT ${PROFILE_FIELDS} FROM users WHERE id = ?`, [id]);
     return rows[0] || null;
   },
 
@@ -32,6 +32,18 @@ const User = {
 
   async updateProfile(id, { full_name, phone }) {
     await pool.query('UPDATE users SET full_name = ?, phone = ? WHERE id = ?', [full_name, phone, id]);
+  },
+
+  async updateAddress(id, { region, block_number, street_name, building_number, floor, flat }) {
+    await pool.query(
+      `UPDATE users SET region = ?, block_number = ?, street_name = ?, building_number = ?, floor = ?, flat = ?
+       WHERE id = ?`,
+      [region || null, block_number || null, street_name || null, building_number || null, floor || null, flat || null, id]
+    );
+  },
+
+  async updatePassword(id, password_hash) {
+    await pool.query('UPDATE users SET password_hash = ? WHERE id = ?', [password_hash, id]);
   },
 
   async setActive(id, is_active) {

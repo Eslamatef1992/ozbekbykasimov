@@ -15,6 +15,12 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash VARCHAR(255) NOT NULL,
   role ENUM('customer', 'admin', 'staff') NOT NULL DEFAULT 'customer',
   is_active TINYINT(1) NOT NULL DEFAULT 1,
+  region VARCHAR(100),
+  block_number VARCHAR(50),
+  street_name VARCHAR(150),
+  building_number VARCHAR(50),
+  floor VARCHAR(50),
+  flat VARCHAR(50),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

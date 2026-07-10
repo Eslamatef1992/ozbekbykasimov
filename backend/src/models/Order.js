@@ -26,15 +26,40 @@ const Order = {
   },
 
   async findById(id) {
-    const [rows] = await pool.query('SELECT * FROM orders WHERE id = ?', [id]);
+    const [rows] = await pool.query(
+      `SELECT o.*, u.full_name AS customer_name, u.email AS customer_email
+       FROM orders o JOIN users u ON u.id = o.user_id WHERE o.id = ?`,
+      [id]
+    );
     if (!rows[0]) return null;
-    const [items] = await pool.query('SELECT * FROM order_items WHERE order_id = ?', [id]);
+    const [items] = await pool.query(
+      `SELECT oi.*, mi.image_url, c.name AS category_name
+       FROM order_items oi
+       LEFT JOIN menu_items mi ON mi.id = oi.menu_item_id
+       LEFT JOIN categories c ON c.id = mi.category_id
+       WHERE oi.order_id = ?`,
+      [id]
+    );
     return { ...rows[0], items };
   },
 
   async listForUser(userId) {
     const [rows] = await pool.query('SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC', [userId]);
-    return rows;
+    if (!rows.length) return rows;
+    const ids = rows.map((r) => r.id);
+    const [items] = await pool.query(
+      `SELECT oi.order_id, oi.item_name, oi.quantity, oi.unit_price, oi.line_total, mi.image_url, c.name AS category_name
+       FROM order_items oi
+       LEFT JOIN menu_items mi ON mi.id = oi.menu_item_id
+       LEFT JOIN categories c ON c.id = mi.category_id
+       WHERE oi.order_id IN (?)`,
+      [ids]
+    );
+    const byOrder = {};
+    for (const it of items) {
+      (byOrder[it.order_id] ||= []).push(it);
+    }
+    return rows.map((r) => ({ ...r, items: byOrder[r.id] || [] }));
   },
 
   async listAll({ status, limit = 50, offset = 0 } = {}) {
