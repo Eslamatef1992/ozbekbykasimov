@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useUI } from '../context/UIContext';
 import { useI18n } from '../context/I18nContext';
-import { IconMail, IconMenu, IconClose } from './icons';
+import { IconMenu, IconClose } from './icons';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -20,11 +20,6 @@ export default function Navbar() {
     { to: '/about', label: t('nav_about') },
     { to: '/contact', label: t('nav_contact') },
   ];
-
-  function go(to) {
-    setMobileOpen(false);
-    navigate(to);
-  }
 
   return (
     <header className="bg-mint sticky top-0 z-40">
@@ -68,9 +63,6 @@ export default function Navbar() {
               <span className="absolute -top-1.5 -right-1.5 bg-forest text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center ring-2 ring-mint">{count}</span>
             )}
           </button>
-          <Link to="/contact" className="hidden sm:inline-block text-ink/70 hover:text-forest" aria-label={t('nav_contact')}>
-            <IconMail width="22" height="22" />
-          </Link>
           {user ? (
             <div className="relative group">
               <button onClick={() => navigate('/profile')} className="hover:opacity-75 transition" aria-label={t('profile')}>
@@ -105,12 +97,9 @@ export default function Navbar() {
               </NavLink>
             ))}
           </nav>
-          <div className="flex items-center justify-between mt-4 pt-4">
+          <div className="flex items-center mt-4 pt-4">
             <button onClick={toggleLocale} className="flex items-center gap-1.5 text-sm text-ink/70 hover:text-forest" aria-label="Toggle language">
               <img src="/icons/kuwait-flag.svg" alt="" className="w-5 h-5 rounded-full" /> {locale === 'en' ? 'العربية' : 'English'}
-            </button>
-            <button onClick={() => go('/contact')} className="flex items-center gap-1.5 text-sm text-ink/70 hover:text-forest">
-              <IconMail width="18" height="18" /> {t('nav_contact')}
             </button>
           </div>
         </div>
