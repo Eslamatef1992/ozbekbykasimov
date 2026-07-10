@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
+import { useI18n } from '../context/I18nContext';
 import { IconClose, IconEye } from './icons';
 
 export default function AuthDrawer() {
   const { authOpen, authMode, closeAuth, setAuthMode } = useUI();
   const { login, register } = useAuth();
+  const { t } = useI18n();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -68,91 +70,91 @@ export default function AuthDrawer() {
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-ink/40" onClick={handleClose} />
       <div className="relative w-full max-w-md bg-white h-full overflow-y-auto shadow-xl animate-[slideIn_.2s_ease-out]">
-        <div className="flex items-center justify-between px-6 py-5 border-b border-border">
-          <span className="text-sm text-ink/60">{isLogin ? 'Log In' : 'Create Account'}</span>
+        <div className="flex items-center justify-between px-7 py-6 border-b border-border">
+          <span className="text-base text-ink/60">{isLogin ? t('login') : t('create_account')}</span>
           <button onClick={handleClose} aria-label="Close" className="text-ink/50 hover:text-ink"><IconClose /></button>
         </div>
 
-        <div className="px-6 py-8">
-          <h2 className="font-display text-2xl tracking-wide mb-6">{isLogin ? 'LOGIN INFO' : 'CREATE ACCOUNT'}</h2>
+        <div className="px-7 py-9">
+          <h2 className="font-display text-2xl tracking-wide mb-7">{isLogin ? t('login_info') : t('create_account')}</h2>
 
           {isLogin ? (
-            <form onSubmit={handleLogin} className="space-y-5">
-              <Field label="Email" required>
-                <input required type="email" placeholder="Enter Mail" value={form.email}
+            <form onSubmit={handleLogin} className="space-y-6">
+              <Field label={t('email')} required>
+                <input required type="email" placeholder={t('enter_mail')} value={form.email}
                   onChange={(e) => update('email', e.target.value)} className="field" />
               </Field>
-              <Field label="Password" required>
+              <Field label={t('password')} required>
                 <div className="relative">
-                  <input required type={showPassword ? 'text' : 'password'} placeholder="Enter Password" value={form.password}
-                    onChange={(e) => update('password', e.target.value)} className="field pr-10" />
+                  <input required type={showPassword ? 'text' : 'password'} placeholder={t('enter_password')} value={form.password}
+                    onChange={(e) => update('password', e.target.value)} className="field pr-11 rtl:pr-4 rtl:pl-11" />
                   <button type="button" onClick={() => setShowPassword((s) => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ink/40">
+                    className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-ink/40">
                     <IconEye off={showPassword} />
                   </button>
                 </div>
-                <div className="text-right mt-1">
-                  <button type="button" className="text-xs text-ink/50 hover:text-forest underline">Forget Password ?</button>
+                <div className="text-right rtl:text-left mt-1.5">
+                  <button type="button" className="text-sm text-ink/50 hover:text-forest underline">{t('forget_password')}</button>
                 </div>
               </Field>
 
-              {error && <p className="text-red-600 text-sm">{error}</p>}
-              <button disabled={submitting} className="btn-primary w-full">{submitting ? 'Logging in...' : 'Log In'}</button>
-              <p className="text-center text-sm text-ink/60">
-                Don't Have An Account ?{' '}
-                <button type="button" onClick={() => setAuthMode('register')} className="text-forest font-medium underline">Create Account</button>
+              {error && <p className="text-red-600 text-base">{error}</p>}
+              <button disabled={submitting} className="btn-primary w-full">{submitting ? '...' : t('login')}</button>
+              <p className="text-center text-base text-ink/60">
+                {t('no_account')}{' '}
+                <button type="button" onClick={() => setAuthMode('register')} className="text-forest font-medium underline">{t('create_account')}</button>
               </p>
             </form>
           ) : (
-            <form onSubmit={handleRegister} className="space-y-5">
-              <Field label="Name" required>
-                <input required placeholder="Enter Name" value={form.full_name}
+            <form onSubmit={handleRegister} className="space-y-6">
+              <Field label={t('name')} required>
+                <input required placeholder={t('enter_name')} value={form.full_name}
                   onChange={(e) => update('full_name', e.target.value)} className="field" />
               </Field>
-              <Field label="Email" required>
-                <input required type="email" placeholder="Enter Mail" value={form.email}
+              <Field label={t('email')} required>
+                <input required type="email" placeholder={t('enter_mail')} value={form.email}
                   onChange={(e) => update('email', e.target.value)} className="field" />
               </Field>
-              <Field label="Phone Number" required>
+              <Field label={t('phone_number')} required>
                 <div className="flex">
-                  <span className="flex items-center gap-1 px-3 border border-r-0 border-ink/15 rounded-l-lg text-sm text-ink/70 bg-mint/40">
+                  <span className="flex items-center gap-1.5 px-3 border border-r-0 rtl:border-r rtl:border-l-0 border-ink/15 rounded-l-lg rtl:rounded-l-none rtl:rounded-r-lg text-base text-ink/70 bg-mint/40">
                     🇰🇼 +965
                   </span>
-                  <input required placeholder="Enter Phone" value={form.phone}
-                    onChange={(e) => update('phone', e.target.value)} className="field rounded-l-none" />
+                  <input required placeholder={t('enter_phone')} value={form.phone}
+                    onChange={(e) => update('phone', e.target.value)} className="field rounded-l-none rtl:rounded-l-lg rtl:rounded-r-none" />
                 </div>
               </Field>
-              <Field label="Password" required>
+              <Field label={t('password')} required>
                 <div className="relative">
-                  <input required type={showPassword ? 'text' : 'password'} placeholder="Enter Password" value={form.password}
-                    onChange={(e) => update('password', e.target.value)} className="field pr-10" />
+                  <input required type={showPassword ? 'text' : 'password'} placeholder={t('enter_password')} value={form.password}
+                    onChange={(e) => update('password', e.target.value)} className="field pr-11 rtl:pr-4 rtl:pl-11" />
                   <button type="button" onClick={() => setShowPassword((s) => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ink/40">
+                    className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-ink/40">
                     <IconEye off={showPassword} />
                   </button>
                 </div>
               </Field>
-              <Field label="Confirm Password" required>
+              <Field label={t('confirm_password')} required>
                 <div className="relative">
-                  <input required type={showConfirm ? 'text' : 'password'} placeholder="Enter Password" value={form.confirm}
-                    onChange={(e) => update('confirm', e.target.value)} className="field pr-10" />
+                  <input required type={showConfirm ? 'text' : 'password'} placeholder={t('enter_password')} value={form.confirm}
+                    onChange={(e) => update('confirm', e.target.value)} className="field pr-11 rtl:pr-4 rtl:pl-11" />
                   <button type="button" onClick={() => setShowConfirm((s) => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ink/40">
+                    className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-ink/40">
                     <IconEye off={showConfirm} />
                   </button>
                 </div>
               </Field>
 
-              <label className="flex items-center gap-2 text-sm text-ink/70">
+              <label className="flex items-center gap-2.5 text-base text-ink/70">
                 <input type="checkbox" checked={form.terms} onChange={(e) => update('terms', e.target.checked)} />
-                Confirm Terms &amp; Conditions
+                {t('confirm_terms')}
               </label>
 
-              {error && <p className="text-red-600 text-sm">{error}</p>}
-              <button disabled={submitting} className="btn-primary w-full">{submitting ? 'Creating...' : 'Log In'}</button>
-              <p className="text-center text-sm text-ink/60">
-                Have An Account ?{' '}
-                <button type="button" onClick={() => setAuthMode('login')} className="text-forest font-medium underline">Login</button>
+              {error && <p className="text-red-600 text-base">{error}</p>}
+              <button disabled={submitting} className="btn-primary w-full">{submitting ? '...' : t('create_account')}</button>
+              <p className="text-center text-base text-ink/60">
+                {t('have_account')}{' '}
+                <button type="button" onClick={() => setAuthMode('login')} className="text-forest font-medium underline">{t('login')}</button>
               </p>
             </form>
           )}
@@ -165,7 +167,7 @@ export default function AuthDrawer() {
 function Field({ label, required, children }) {
   return (
     <div>
-      <label className="block text-sm text-ink mb-1.5">{label} {required && <span className="text-red-500">*</span>}</label>
+      <label className="block text-base text-ink mb-2">{label} {required && <span className="text-red-500">*</span>}</label>
       {children}
     </div>
   );

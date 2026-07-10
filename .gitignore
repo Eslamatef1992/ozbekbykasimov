@@ -10,3 +10,4 @@ coverage/
 backend/uploads/*
 !backend/uploads/.gitkeep
 *.timestamp-*.mjs
+frontend/dist-verify*/

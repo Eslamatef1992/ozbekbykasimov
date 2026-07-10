@@ -1,10 +1,12 @@
+import { useI18n } from '../context/I18nContext';
+
 export default function PrivacyTerms() {
+  const { t } = useI18n();
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="text-3xl mb-6">Privacy & Terms</h1>
-      <p className="text-navy/70 leading-relaxed">
-        Placeholder privacy policy and terms & conditions content - replace with the restaurant's actual
-        policy text (data handling, delivery terms, cancellation policy, etc.) before launch.
+    <div className="max-w-3xl mx-auto px-6 py-20">
+      <h1 className="page-heading mb-7">{t('privacy_terms_title')}</h1>
+      <p className="text-ink/70 text-lg leading-relaxed">
+        {t('privacy_terms_placeholder')}
       </p>
     </div>
   );

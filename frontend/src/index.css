@@ -2,32 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-size: 17px;
+}
+
 body {
-  @apply bg-white text-ink font-body;
+  @apply bg-white text-ink font-body text-base leading-relaxed;
 }
 
 h1, h2, h3, h4 {
   @apply font-display;
 }
 
+/* Small uppercase eyebrow label, e.g. "— About Us —" above a big heading */
 .section-label {
-  @apply text-forest text-sm tracking-widest uppercase font-medium relative inline-flex items-center gap-3;
+  @apply text-forest text-sm tracking-[0.2em] uppercase font-medium relative inline-flex items-center gap-4;
 }
 .section-label::before,
 .section-label::after {
   content: '';
-  @apply h-px w-8 bg-forest/40;
+  @apply h-px w-9 bg-forest/40;
+}
+
+/* Big page/section heading, e.g. "Where Flavor Meets Elegance" */
+.section-heading {
+  @apply font-display text-4xl md:text-5xl leading-tight text-ink;
+}
+
+.page-heading {
+  @apply font-display text-3xl md:text-4xl leading-tight text-ink;
 }
 
 .btn-primary {
-  @apply bg-forest text-white px-6 py-3 rounded-full hover:bg-forest-dark transition text-sm font-medium;
+  @apply bg-forest text-white px-7 py-3.5 rounded-full hover:bg-forest-dark transition text-base font-medium;
 }
 .btn-outline {
-  @apply border border-forest text-forest px-6 py-3 rounded-full hover:bg-forest hover:text-white transition text-sm font-medium;
+  @apply border border-forest text-forest px-7 py-3.5 rounded-full hover:bg-forest hover:text-white transition text-base font-medium;
 }
 
 .field {
-  @apply border border-ink/15 rounded-lg px-3 py-2.5 w-full text-sm placeholder:text-ink/35 focus:outline-none focus:border-forest;
+  @apply border border-ink/15 rounded-lg px-4 py-3 w-full text-base placeholder:text-ink/35 focus:outline-none focus:border-forest;
+}
+
+[dir='rtl'] .section-label {
+  @apply tracking-normal;
 }
 
 @keyframes slideIn {
