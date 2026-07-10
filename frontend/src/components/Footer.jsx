@@ -18,11 +18,11 @@ export default function Footer() {
           <p className="text-base text-ink/60 max-w-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
           <div className="mt-6">
             <div className="text-sm tracking-widest text-ink/50 mb-3">{t('follow_us')}</div>
-            <div className="flex gap-3">
+            <div className="flex gap-3.5">
               {socials.map((s) => (
                 <a key={s.label} href={s.href} aria-label={s.label}
-                  className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition">
-                  <img src={s.icon} alt="" className="w-5 h-5" />
+                  className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition shrink-0">
+                  <img src={s.icon} alt="" className="w-6 h-6" />
                 </a>
               ))}
             </div>

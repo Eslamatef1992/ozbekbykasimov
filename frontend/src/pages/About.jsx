@@ -47,10 +47,11 @@ export default function About() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="relative rounded-2xl overflow-hidden aspect-[47/25] bg-ink/10">
+        <div className="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[47/25] bg-ink/10">
           <img src="/images/about/reservation-chef.svg" alt=""
             className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 w-56 sm:w-72 bg-black/35 flex flex-col justify-center items-center text-center px-6 sm:px-8">
+
+          <div className="hidden sm:flex absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 w-56 md:w-72 bg-black/35 flex-col justify-center items-center text-center px-6 md:px-8">
             <div className="font-display text-2xl text-white mb-6">{t('working_hours')}</div>
             <div className="mb-5">
               <div className="font-semibold text-lg text-ink mb-1">{t('sun_to_tue')}</div>
@@ -66,8 +67,34 @@ export default function About() {
             </div>
           </div>
 
-          <div className="absolute left-6 bottom-6 rtl:right-6 rtl:left-auto bg-white/95 rounded-xl px-7 py-6 w-72 shadow-lg">
+          <div className="hidden sm:block absolute left-6 bottom-6 rtl:right-6 rtl:left-auto bg-white/95 rounded-xl px-7 py-6 w-64 md:w-72 shadow-lg">
             <div className="section-label mb-4 text-sm">{t('reservation')}</div>
+            <div className="flex flex-col gap-3">
+              <Link to="/book-table" className="btn-primary text-center">{t('book_a_table')}</Link>
+              <Link to="/contact" className="btn-outline text-center">{t('contact_us_btn')}</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="sm:hidden mt-6 space-y-5">
+          <div className="bg-ink rounded-2xl px-6 py-7 text-center text-white">
+            <div className="font-display text-xl mb-5">{t('working_hours')}</div>
+            <div className="mb-4">
+              <div className="font-semibold text-base mb-1">{t('sun_to_tue')}</div>
+              <div className="text-white/70 text-sm">{t('hours_range')}</div>
+            </div>
+            <div className="mb-4">
+              <div className="font-semibold text-base mb-1">{t('fri_to_sat')}</div>
+              <div className="text-white/70 text-sm">{t('hours_range')}</div>
+            </div>
+            <div>
+              <div className="font-semibold text-base mb-1">{t('sunday')}</div>
+              <div className="text-white/70 text-sm">{t('closed')}</div>
+            </div>
+          </div>
+
+          <div className="bg-white border border-border rounded-xl px-6 py-6 text-center">
+            <div className="section-label justify-center mb-4 text-sm">{t('reservation')}</div>
             <div className="flex flex-col gap-3">
               <Link to="/book-table" className="btn-primary text-center">{t('book_a_table')}</Link>
               <Link to="/contact" className="btn-outline text-center">{t('contact_us_btn')}</Link>

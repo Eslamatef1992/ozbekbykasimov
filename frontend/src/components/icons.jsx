@@ -73,6 +73,12 @@ export const IconChevron = ({ dir = 'right', ...props }) => (
   </svg>
 );
 
+export const IconMenu = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="24" height="24" {...props}>
+    <path d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+);
+
 export const IconPhone = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" width="18" height="18" {...props}>
     <path d="M5 4h3.2l1.4 4.5-2 1.6a12 12 0 0 0 6.3 6.3l1.6-2 4.5 1.4V19a2 2 0 0 1-2.2 2A16 16 0 0 1 3 5.2 2 2 0 0 1 5 4Z" />

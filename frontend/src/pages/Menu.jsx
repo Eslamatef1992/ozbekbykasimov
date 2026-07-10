@@ -36,12 +36,12 @@ export default function Menu() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
         <h1 className="page-heading">{activeCategoryObj ? activeCategoryObj.name : t('menu_title')}</h1>
         <div className="relative w-full sm:w-72">
-          <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/30" />
+          <IconSearch className="absolute left-4 rtl:left-auto rtl:right-4 top-1/2 -translate-y-1/2 text-ink/30" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('search_by_item')}
-            className="field pl-11"
+            className="field pl-11 rtl:pl-4 rtl:pr-11"
           />
         </div>
       </div>

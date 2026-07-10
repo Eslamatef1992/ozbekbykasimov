@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
-import { IconCalendar, IconClock, IconCheck } from '../components/icons';
+import { IconCalendar, IconClock, IconCheck, IconChevron } from '../components/icons';
 import DatePickerPopover from '../components/DatePickerPopover';
 import TimePickerPopover from '../components/TimePickerPopover';
 
@@ -68,20 +69,27 @@ export default function BookTable() {
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-14">
-      <div className="text-sm text-ink/50 mb-10">{t('nav_home')} &gt; {t('book_table_title')}</div>
+      <div className="flex items-center gap-2 text-sm text-ink/50 mb-10">
+        <Link to="/" className="hover:text-forest">{t('nav_home')}</Link>
+        <IconChevron className="rtl:rotate-180" width="14" height="14" />
+        <span className="text-ink">{t('book_table_title')}</span>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-16">
-        <div className="relative h-80 md:h-full">
-          <div className="absolute inset-0 rounded-2xl bg-mint overflow-hidden" />
-          <div className="absolute -bottom-6 -right-4 rtl:-left-4 rtl:right-auto w-40 h-32 rounded-xl bg-tag border-4 border-white shadow-lg" />
-          <div className="absolute top-6 left-6 rtl:right-6 rtl:left-auto bg-white rounded-lg shadow px-4 py-2.5 flex items-center gap-2.5">
-            <img src="/favicon.svg" alt="" className="w-6 h-6" />
-            <span className="text-xs tracking-widest text-ink">OZBEK BY KASIMOV</span>
+        <div className="relative w-full max-w-md mx-auto md:mx-0" style={{ aspectRatio: '570/730' }}>
+          <img src="/images/booktable/collage-top.svg" alt=""
+            className="absolute left-0 top-0 w-[96%] h-[55%] object-cover" />
+          <img src="/images/booktable/collage-bottom-left.svg" alt=""
+            className="absolute left-0 top-[57%] w-[70%] h-[38%] object-cover" />
+          <img src="/images/booktable/collage-right.svg" alt=""
+            className="absolute left-[60%] rtl:left-auto rtl:right-[60%] top-[38%] w-[40%] h-[62%] object-cover z-10" />
+          <div className="absolute left-[16%] top-[17%] w-[68%] h-[10%] bg-white shadow-sm flex items-center justify-center px-3 z-20">
+            <img src="/logo.svg" alt="Ozbek By Kasimov" className="h-[65%] w-auto" />
           </div>
         </div>
 
         <div>
-          <h1 className="page-heading mb-8">{t('book_table_title')}</h1>
+          <h1 className="page-heading mb-8 uppercase">{t('book_table_title')}</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
             <Field label={t('name')} required>
               <input required placeholder={t('enter_name')} value={form.full_name} onChange={(e) => update('full_name', e.target.value)} className="field" />
