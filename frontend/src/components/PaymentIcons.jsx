@@ -3,7 +3,7 @@
 const base = 'w-8 h-6 rounded flex items-center justify-center text-[9px] font-bold text-white shrink-0 leading-none';
 
 export const KnetBadge = () => (
-  <span className={`${base} bg-gradient-to-br from-sky-500 to-yellow-400`}>KNET</span>
+  <img src="/icons/knet.svg" alt="KNET" className="w-8 h-8 rounded shrink-0" />
 );
 
 export const MastercardBadge = () => (

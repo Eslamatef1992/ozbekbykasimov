@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useUI } from '../context/UIContext';
 import { useI18n } from '../context/I18nContext';
-import { IconMail, IconUser, IconBag, IconMenu, IconClose } from './icons';
+import { IconMail, IconMenu, IconClose } from './icons';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -56,15 +56,16 @@ export default function Navbar() {
         <div className="flex items-center justify-end gap-3 sm:gap-5">
           <button
             onClick={toggleLocale}
-            className="hidden sm:flex items-center gap-1.5 text-sm text-ink/70 hover:text-forest"
+            className="hidden sm:flex items-center gap-1.5 bg-mint rounded-full pl-1 pr-3 rtl:pr-1 rtl:pl-3 py-1 hover:opacity-80 transition"
             aria-label="Toggle language"
           >
-            <span aria-hidden>🇰🇼</span> {locale === 'en' ? 'AR' : 'EN'}
+            <img src="/icons/kuwait-flag.svg" alt="" className="w-6 h-6 rounded-full" />
+            <span className="text-sm font-medium text-ink">{locale === 'en' ? 'AR' : 'EN'}</span>
           </button>
-          <button onClick={openCart} className="relative text-ink/70 hover:text-forest" aria-label={t('cart')}>
-            <IconBag width="22" height="22" />
+          <button onClick={openCart} className="relative hover:opacity-75 transition" aria-label={t('cart')}>
+            <img src="/icons/cart-filled.svg" alt="" className="w-6 h-6" />
             {count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-forest text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">{count}</span>
+              <span className="absolute -top-1.5 -right-1.5 bg-forest text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center ring-2 ring-mint">{count}</span>
             )}
           </button>
           <Link to="/contact" className="hidden sm:inline-block text-ink/70 hover:text-forest" aria-label={t('nav_contact')}>
@@ -72,8 +73,8 @@ export default function Navbar() {
           </Link>
           {user ? (
             <div className="relative group">
-              <button onClick={() => navigate('/profile')} className="text-ink/70 hover:text-forest" aria-label={t('profile')}>
-                <IconUser width="22" height="22" />
+              <button onClick={() => navigate('/profile')} className="hover:opacity-75 transition" aria-label={t('profile')}>
+                <img src="/icons/user-filled.svg" alt="" className="w-6 h-6" />
               </button>
               <div className="absolute rtl:left-0 rtl:right-auto right-0 top-full mt-2 hidden group-hover:block bg-white border border-border rounded-lg shadow-md text-sm whitespace-nowrap z-50">
                 <button onClick={() => navigate('/profile')} className="block w-full text-left rtl:text-right px-4 py-2 hover:bg-mint/60">{user.full_name.split(' ')[0]}</button>
@@ -81,8 +82,8 @@ export default function Navbar() {
               </div>
             </div>
           ) : (
-            <button onClick={() => openAuth('login')} className="text-ink/70 hover:text-forest" aria-label={t('login')}>
-              <IconUser width="22" height="22" />
+            <button onClick={() => openAuth('login')} className="hover:opacity-75 transition" aria-label={t('login')}>
+              <img src="/icons/user-filled.svg" alt="" className="w-6 h-6" />
             </button>
           )}
         </div>
@@ -106,7 +107,7 @@ export default function Navbar() {
           </nav>
           <div className="flex items-center justify-between mt-4 pt-4">
             <button onClick={toggleLocale} className="flex items-center gap-1.5 text-sm text-ink/70 hover:text-forest" aria-label="Toggle language">
-              <span aria-hidden>🇰🇼</span> {locale === 'en' ? 'العربية' : 'English'}
+              <img src="/icons/kuwait-flag.svg" alt="" className="w-5 h-5 rounded-full" /> {locale === 'en' ? 'العربية' : 'English'}
             </button>
             <button onClick={() => go('/contact')} className="flex items-center gap-1.5 text-sm text-ink/70 hover:text-forest">
               <IconMail width="18" height="18" /> {t('nav_contact')}

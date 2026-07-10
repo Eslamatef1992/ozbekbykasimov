@@ -51,7 +51,7 @@ export default function Footer() {
 
       <div className="border-t border-forest/10">
         <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between gap-2 text-sm text-ink/50">
-          <span>&copy; {t('powered_by')} <span className="font-medium text-ink/70">Teknulugy</span></span>
+          <span>&copy; {t('powered_by')} <a href="https://teknulugy.com" target="_blank" rel="noopener noreferrer" className="font-medium text-ink/70 hover:text-forest underline">Teknulugy</a></span>
           <span className="flex gap-5">
             <Link to="/privacy-terms" className="hover:text-forest">{t('terms_of_service')}</Link>
             <Link to="/privacy-terms" className="hover:text-forest">{t('privacy_policy')}</Link>
