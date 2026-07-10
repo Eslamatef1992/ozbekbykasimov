@@ -25,9 +25,11 @@ export default function About() {
         </div>
         <div className="relative w-full max-w-sm mx-auto aspect-square">
           <img src="/images/about/hero-circle-big.svg" alt=""
-            className="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-[65%] h-[65%] object-contain" />
+            className="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-[86%] h-[87%] object-contain" />
+          <img src="/images/about/hero-circle-medium.svg" alt=""
+            className="absolute top-[53%] left-[5%] rtl:left-auto rtl:right-[5%] w-[52%] h-[47%] object-contain z-10" />
           <img src="/images/about/hero-circle-small.svg" alt=""
-            className="absolute bottom-2 left-0 rtl:left-auto rtl:right-0 w-[38%] h-[38%] object-contain z-10" />
+            className="absolute top-[36%] left-0 rtl:left-auto rtl:right-0 w-[27%] h-[27%] object-contain z-20" />
         </div>
       </section>
 
@@ -45,20 +47,22 @@ export default function About() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="relative rounded-2xl overflow-hidden aspect-[16/7] bg-ink/10">
-          <div className="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-60 sm:w-72 bg-white/80 backdrop-blur-sm rounded-bl-2xl rtl:rounded-bl-none rtl:rounded-br-2xl flex flex-col items-center text-center px-6 sm:px-8 py-8">
-            <div className="section-label mb-5 text-sm">{t('working_hours')}</div>
+        <div className="relative rounded-2xl overflow-hidden aspect-[47/25] bg-ink/10">
+          <img src="/images/about/reservation-chef.svg" alt=""
+            className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 w-56 sm:w-72 bg-black/35 flex flex-col justify-center items-center text-center px-6 sm:px-8">
+            <div className="font-display text-2xl text-white mb-6">{t('working_hours')}</div>
             <div className="mb-5">
-              <div className="font-medium text-lg mb-1">{t('sun_to_tue')}</div>
-              <div className="text-ink/70">{t('hours_range')}</div>
+              <div className="font-semibold text-lg text-ink mb-1">{t('sun_to_tue')}</div>
+              <div className="text-ink/90">{t('hours_range')}</div>
             </div>
             <div className="mb-5">
-              <div className="font-medium text-lg mb-1">{t('fri_to_sat')}</div>
-              <div className="text-ink/70">{t('hours_range')}</div>
+              <div className="font-semibold text-lg text-ink mb-1">{t('fri_to_sat')}</div>
+              <div className="text-ink/90">{t('hours_range')}</div>
             </div>
             <div>
-              <div className="font-medium text-lg mb-1">{t('sunday')}</div>
-              <div className="text-ink/70">{t('closed')}</div>
+              <div className="font-semibold text-lg text-ink mb-1">{t('sunday')}</div>
+              <div className="text-ink/90">{t('closed')}</div>
             </div>
           </div>
 
