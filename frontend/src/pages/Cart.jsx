@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useI18n } from '../context/I18nContext';
 import { IconTrash, IconTag, IconChevron } from '../components/icons';
+import { resolveImageUrl } from '../utils/media';
 
 export default function Cart() {
   const { items, subtotal, updateItem, removeItem } = useCart();
@@ -45,7 +46,7 @@ export default function Cart() {
               {items.map((i) => (
                 <div key={i.id} className="relative flex items-center gap-4 bg-mint/30 rounded-xl p-4">
                   <div className="w-20 h-20 rounded-lg overflow-hidden bg-mint shrink-0">
-                    {i.image_url && <img src={i.image_url} alt={i.name} className="w-full h-full object-cover" />}
+                    {i.image_url && <img src={resolveImageUrl(i.image_url)} alt={i.name} className="w-full h-full object-cover" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2.5 mb-1">

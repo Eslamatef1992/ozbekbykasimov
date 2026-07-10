@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { useI18n } from '../../context/I18nContext';
 import { IconClose } from '../icons';
+import { resolveImageUrl } from '../../utils/media';
 
 function statusLabel(status, t) {
   if (status === 'cancelled') return t('status_canceled');
@@ -86,7 +87,7 @@ export default function OrderDetailsDrawer({ orderId, onClose }) {
                 <div key={item.id} className="grid grid-cols-[1fr_auto_auto] gap-4 items-center px-4 py-3 border-t border-border">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-11 h-11 rounded-lg overflow-hidden bg-mint shrink-0">
-                      {item.image_url && <img src={item.image_url} alt={item.item_name} className="w-full h-full object-cover" />}
+                      {item.image_url && <img src={resolveImageUrl(item.image_url)} alt={item.item_name} className="w-full h-full object-cover" />}
                     </div>
                     <span className="text-base truncate">{item.item_name}</span>
                   </div>

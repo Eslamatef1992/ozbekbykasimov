@@ -54,16 +54,16 @@ export default function About() {
           <div className="hidden sm:flex absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 w-56 md:w-72 bg-black/35 flex-col justify-center items-center text-center px-6 md:px-8">
             <div className="font-display text-2xl text-white mb-6">{t('working_hours')}</div>
             <div className="mb-5">
-              <div className="font-semibold text-lg text-ink mb-1">{t('sun_to_tue')}</div>
-              <div className="text-ink/90">{t('hours_range')}</div>
+              <div className="font-semibold text-lg text-white mb-1">{t('sun_to_tue')}</div>
+              <div className="text-white/80">{t('hours_range')}</div>
             </div>
             <div className="mb-5">
-              <div className="font-semibold text-lg text-ink mb-1">{t('fri_to_sat')}</div>
-              <div className="text-ink/90">{t('hours_range')}</div>
+              <div className="font-semibold text-lg text-white mb-1">{t('fri_to_sat')}</div>
+              <div className="text-white/80">{t('hours_range')}</div>
             </div>
             <div>
-              <div className="font-semibold text-lg text-ink mb-1">{t('sunday')}</div>
-              <div className="text-ink/90">{t('closed')}</div>
+              <div className="font-semibold text-lg text-white mb-1">{t('sunday')}</div>
+              <div className="text-white/80">{t('closed')}</div>
             </div>
           </div>
 

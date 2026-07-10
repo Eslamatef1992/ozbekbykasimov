@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { useI18n } from '../context/I18nContext';
 import { IconClose, IconBag, IconTrash, IconTag } from './icons';
+import { resolveImageUrl } from '../utils/media';
 
 export default function CartDrawer() {
   const { cartOpen, closeCart, openAuth } = useUI();
@@ -55,7 +56,7 @@ export default function CartDrawer() {
               {items.map((i) => (
                 <div key={i.id} className="relative flex items-center gap-3.5 bg-mint/30 rounded-xl p-3.5">
                   <div className="w-16 h-16 rounded-lg overflow-hidden bg-mint shrink-0">
-                    {i.image_url && <img src={i.image_url} alt={i.name} className="w-full h-full object-cover" />}
+                    {i.image_url && <img src={resolveImageUrl(i.image_url)} alt={i.name} className="w-full h-full object-cover" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">

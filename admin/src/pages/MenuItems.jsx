@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../services/api';
+import { resolveImageUrl } from '../utils/media';
 
 const emptyForm = { id: null, category_id: '', name: '', description: '', price: '', image_url: '', is_featured: false, is_available: true };
 
@@ -79,7 +80,12 @@ export default function MenuItems() {
         <div>
           <input type="file" accept="image/*" onChange={handleUpload} className="text-sm" />
           {uploading && <span className="text-sm text-navy/50 ml-2">Uploading...</span>}
-          {form.image_url && <div className="text-xs text-navy/50 mt-1">{form.image_url}</div>}
+          {form.image_url && (
+            <div className="flex items-center gap-2 mt-2">
+              <img src={resolveImageUrl(form.image_url)} alt="" className="w-14 h-14 rounded-lg object-cover border border-navy/10" />
+              <div className="text-xs text-navy/50 break-all">{form.image_url}</div>
+            </div>
+          )}
         </div>
         <textarea placeholder="Description" value={form.description} onChange={(e) => update('description', e.target.value)} className="border border-navy/20 rounded-lg px-3 py-2 md:col-span-2" rows={2} />
         <label className="flex items-center gap-2 text-sm">
@@ -100,9 +106,16 @@ export default function MenuItems() {
       <div className="bg-white rounded-xl border border-navy/10 divide-y">
         {items.map((item) => (
           <div key={item.id} className="flex items-center justify-between px-5 py-3">
-            <div>
-              <div className={item.is_available ? '' : 'text-navy/40'}>{item.name} <span className="text-navy/40 text-sm">({item.category_name})</span></div>
-              <div className="text-sm text-navy/60">{Number(item.price).toFixed(0)} Kd{item.is_featured ? ' - Featured' : ''}</div>
+            <div className="flex items-center gap-3">
+              {item.image_url ? (
+                <img src={resolveImageUrl(item.image_url)} alt="" className="w-10 h-10 rounded-lg object-cover border border-navy/10 shrink-0" />
+              ) : (
+                <div className="w-10 h-10 rounded-lg bg-navy/5 shrink-0" />
+              )}
+              <div>
+                <div className={item.is_available ? '' : 'text-navy/40'}>{item.name} <span className="text-navy/40 text-sm">({item.category_name})</span></div>
+                <div className="text-sm text-navy/60">{Number(item.price).toFixed(0)} Kd{item.is_featured ? ' - Featured' : ''}</div>
+              </div>
             </div>
             <div className="flex gap-3 text-sm">
               <button onClick={() => edit(item)} className="text-navy/60 hover:text-accent">Edit</button>

@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useUI } from '../context/UIContext';
 import { useI18n } from '../context/I18nContext';
+import { resolveImageUrl } from '../utils/media';
 
 export default function DishCard({ item }) {
   const { user } = useAuth();
@@ -19,7 +20,7 @@ export default function DishCard({ item }) {
   return (
     <Link to={`/menu/${item.slug}`} className="bg-white border border-border rounded-2xl overflow-hidden flex flex-col hover:shadow-md transition">
       <div className="aspect-[4/3] bg-mint overflow-hidden">
-        {item.image_url && <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />}
+        {item.image_url && <img src={resolveImageUrl(item.image_url)} alt={item.name} className="w-full h-full object-cover" />}
       </div>
       <div className="p-5 flex-1 flex flex-col">
         <span className="inline-block bg-tag text-forest text-xs px-3 py-1 rounded-full w-fit mb-3">

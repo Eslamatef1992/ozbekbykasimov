@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext';
 import { useI18n } from '../../context/I18nContext';
 import { IconBoxEmpty } from '../icons';
 import OrderDetailsDrawer from './OrderDetailsDrawer';
+import { resolveImageUrl } from '../../utils/media';
 
 function statusInfo(status, t) {
   if (status === 'cancelled') return { label: t('status_canceled'), dot: 'bg-red-500', text: 'text-red-500' };
@@ -70,7 +71,7 @@ export default function OrdersTab() {
               {first && (
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-16 h-16 rounded-lg overflow-hidden bg-mint shrink-0">
-                    {first.image_url && <img src={first.image_url} alt={first.item_name} className="w-full h-full object-cover" />}
+                    {first.image_url && <img src={resolveImageUrl(first.image_url)} alt={first.item_name} className="w-full h-full object-cover" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <span className="inline-block bg-tag text-forest text-xs px-2.5 py-1 rounded-full mb-1">

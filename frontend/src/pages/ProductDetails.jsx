@@ -7,6 +7,7 @@ import { useUI } from '../context/UIContext';
 import { useI18n } from '../context/I18nContext';
 import { IconChevron } from '../components/icons';
 import DishCard from '../components/DishCard';
+import { resolveImageUrl } from '../utils/media';
 
 const CALORIE_SLOTS = new Array(8).fill('480');
 
@@ -42,7 +43,7 @@ export default function ProductDetails() {
 
   if (!item) return <div className="max-w-6xl mx-auto px-6 py-16 text-lg text-ink/60">{t('loading')}</div>;
 
-  const images = [item.image_url, item.image_url, item.image_url].filter(Boolean);
+  const images = [item.image_url, item.image_url, item.image_url].filter(Boolean).map(resolveImageUrl);
 
   return (
     <div>
