@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { useCart } from '../context/CartContext';
+import { useCart, extrasTotal } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
 import { IconCalendar, IconClock, IconChevron } from '../components/icons';
 import { KnetBadge, MastercardBadge, VisaBadge, ApplePayBadge, SamsungPayBadge, CashBadge } from '../components/PaymentIcons';
 import DatePickerPopover from '../components/DatePickerPopover';
 import TimePickerPopover from '../components/TimePickerPopover';
-
-const DELIVERY_FEE = 3.0;
-
-const REGION_KEYS = ['region_capital', 'region_hawalli', 'region_farwaniya', 'region_ahmadi', 'region_jahra', 'region_mubarak'];
 
 const PAYMENT_METHODS = [
   { id: 'knet', label: 'payment_knet', Badge: KnetBadge, backend: 'card' },
@@ -28,15 +25,17 @@ function formatDateLabel(iso) {
 }
 
 export default function Checkout() {
-  const { items, subtotal, refresh } = useCart();
-  const { t } = useI18n();
+  const { items, subtotal, discount, coupon, clear, isGuest } = useCart();
+  const { user } = useAuth();
+  const { t, locale } = useI18n();
   const navigate = useNavigate();
+  const [areas, setAreas] = useState([]);
   const [form, setForm] = useState({
     full_name: '',
     email: '',
     contact_phone: '',
     delivery_type: 'my_address',
-    region: '', block_number: '', street_name: '', building_number: '', floor: '', flat: '',
+    delivery_area_id: '', block_number: '', street_name: '', building_number: '', floor: '', flat: '',
     date: '', time: '',
     payment: 'cash',
   });
@@ -45,8 +44,18 @@ export default function Checkout() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const fee = form.delivery_type === 'my_address' ? DELIVERY_FEE : 0;
-  const total = subtotal + fee;
+  useEffect(() => {
+    api.get('/delivery-areas').then((res) => setAreas(res.data)).catch(() => {});
+  }, []);
+
+  function areaName(a) {
+    return (locale === 'ar' && a.name_ar) ? a.name_ar : a.name_en;
+  }
+
+  const selectedArea = areas.find((a) => String(a.id) === String(form.delivery_area_id));
+  const itemsTotal = items.reduce((sum, i) => sum + (Number(i.price) + extrasTotal(i.extras)) * i.quantity, 0);
+  const fee = form.delivery_type === 'my_address' ? Number(selectedArea?.fee || 0) : 0;
+  const total = Math.max(0, itemsTotal + fee - discount);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -55,6 +64,10 @@ export default function Checkout() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
+    if (form.delivery_type === 'my_address' && !form.delivery_area_id) {
+      setError('Please select your delivery area');
+      return;
+    }
     if (form.delivery_type !== 'my_address' && (!form.date || !form.time)) {
       setError('Please select a date and time');
       return;
@@ -69,23 +82,40 @@ export default function Checkout() {
       let delivery_city = '';
 
       if (form.delivery_type === 'my_address') {
-        delivery_city = t(form.region) || form.region;
+        delivery_city = selectedArea ? areaName(selectedArea) : '';
         delivery_address = `Block ${form.block_number}, ${form.street_name} St, Building ${form.building_number}` +
           (form.floor ? `, Floor ${form.floor}` : '') + (form.flat ? `, Flat ${form.flat}` : '');
       } else {
         notesParts.push(`${form.delivery_type === 'dine_in' ? 'Dine-in' : 'Drive-thru'} date: ${formatDateLabel(form.date)}, time: ${form.time}`);
       }
 
-      const { data } = await api.post('/orders', {
+      const payload = {
         fulfillment_type,
         payment_method: method?.backend || 'cash',
         delivery_address,
         delivery_city,
+        delivery_area_id: form.delivery_type === 'my_address' ? form.delivery_area_id : undefined,
         delivery_notes: notesParts.join(' | '),
         contact_phone: form.contact_phone,
-      });
-      await refresh();
-      navigate(`/profile?order=${data.id}`);
+        coupon_code: coupon?.code || undefined,
+      };
+
+      if (isGuest) {
+        payload.guest_name = form.full_name;
+        payload.guest_email = form.email;
+        payload.guest_phone = form.contact_phone;
+        payload.items = items.map((i) => ({
+          menu_item_id: i.menu_item_id, quantity: i.quantity, extras: (i.extras || []).map((e) => e.id),
+        }));
+      }
+
+      const { data } = await api.post('/orders', payload);
+      await clear();
+      if (isGuest) {
+        navigate('/order-confirmation', { state: { order: data } });
+      } else {
+        navigate(`/profile?order=${data.id}`);
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Could not place order');
     } finally {
@@ -107,11 +137,15 @@ export default function Checkout() {
         <span className="text-ink">{t('checkout')}</span>
       </div>
 
-      <div className="flex items-center justify-center gap-4 mb-10">
+      <div className="flex items-center justify-center gap-4 mb-3">
         <span className="h-px w-10 bg-forest/40" />
         <h1 className="font-display text-2xl sm:text-3xl text-forest">{t('checkout')}</h1>
         <span className="h-px w-10 bg-forest/40" />
       </div>
+      {isGuest && (
+        <p className="text-center text-sm text-ink/50 mb-7">{t('checking_out_as_guest')} — {t('guest_checkout_hint')}</p>
+      )}
+      {!isGuest && <div className="mb-10" />}
 
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 bg-white border border-border rounded-2xl p-6 sm:p-8">
@@ -122,8 +156,8 @@ export default function Checkout() {
               <input required value={form.full_name} onChange={(e) => update('full_name', e.target.value)}
                 placeholder={t('enter_name')} className="field" />
             </Field>
-            <Field label={t('email')}>
-              <input type="email" value={form.email} onChange={(e) => update('email', e.target.value)}
+            <Field label={t('email')} required={isGuest}>
+              <input type="email" required={isGuest} value={form.email} onChange={(e) => update('email', e.target.value)}
                 placeholder={t('enter_mail')} className="field" />
             </Field>
           </div>
@@ -153,9 +187,11 @@ export default function Checkout() {
             {form.delivery_type === 'my_address' ? (
               <div className="grid sm:grid-cols-2 gap-5">
                 <Field label={t('region')} required>
-                  <select required value={form.region} onChange={(e) => update('region', e.target.value)} className="field">
+                  <select required value={form.delivery_area_id} onChange={(e) => update('delivery_area_id', e.target.value)} className="field">
                     <option value="" disabled>{t('choose_region')}</option>
-                    {REGION_KEYS.map((key) => <option key={key} value={key}>{t(key)}</option>)}
+                    {areas.map((a) => (
+                      <option key={a.id} value={a.id}>{areaName(a)} — {Number(a.fee).toFixed(2)} Kd</option>
+                    ))}
                   </select>
                 </Field>
                 <Field label={t('block_number')} required>
@@ -230,12 +266,15 @@ export default function Checkout() {
           <div className="bg-white border border-border rounded-2xl p-6">
             <h2 className="font-medium text-lg mb-4">{t('cart_totals')}</h2>
             <div className="space-y-2.5 text-base">
-              <div className="flex justify-between"><span className="text-ink/60">{t('subtotal')}</span><span>{subtotal.toFixed(0)} Kd</span></div>
+              <div className="flex justify-between"><span className="text-ink/60">{t('subtotal')}</span><span>{itemsTotal.toFixed(2)} Kd</span></div>
               {form.delivery_type === 'my_address' && (
                 <div className="flex justify-between"><span className="text-ink/60">{t('delivery_fees')}</span><span>{fee.toFixed(0)} Kd</span></div>
               )}
+              {discount > 0 && (
+                <div className="flex justify-between"><span className="text-red-500">{t('coupon_discount')}</span><span className="text-red-500">-{discount.toFixed(2)} Kd</span></div>
+              )}
               <div className="flex justify-between font-medium text-lg pt-3 border-t border-border">
-                <span>{t('total')}</span><span className="text-forest">{total.toFixed(0)} Kd</span>
+                <span>{t('total')}</span><span className="text-forest">{total.toFixed(2)} Kd</span>
               </div>
             </div>
             <button disabled={submitting}

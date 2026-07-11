@@ -6,8 +6,18 @@ html {
   font-size: 17px;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   @apply bg-white text-ink font-body text-base leading-relaxed;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
 }
 
 h1, h2, h3, h4 {

@@ -1,14 +1,19 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../context/I18nContext';
+import api from '../services/api';
 
-const socials = [
-  { label: 'Facebook', href: '#', icon: '/icons/facebook.svg' },
-  { label: 'Instagram', href: '#', icon: '/icons/instagram.svg' },
-  { label: 'X', href: '#', icon: '/icons/x.svg' },
+const SOCIAL_DEFS = [
+  { key: 'social_facebook', label: 'Facebook', icon: '/icons/facebook.svg' },
+  { key: 'social_instagram', label: 'Instagram', icon: '/icons/instagram.svg' },
+  { key: 'social_x', label: 'X', icon: '/icons/x.svg' },
 ];
 
 export default function Footer() {
   const { t } = useI18n();
+  const [settings, setSettings] = useState({});
+  useEffect(() => { api.get('/settings').then((res) => setSettings(res.data)); }, []);
+  const socials = SOCIAL_DEFS.filter((s) => settings[s.key]).map((s) => ({ ...s, href: settings[s.key] }));
 
   return (
     <footer className="bg-mint mt-20">
@@ -16,17 +21,19 @@ export default function Footer() {
         <div>
           <img src="/logo.svg" alt="Ozbek By Kasimov" className="h-12 w-auto mb-4" />
           <p className="text-base text-ink/60 max-w-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
-          <div className="mt-6">
-            <div className="text-sm tracking-widest text-ink/50 mb-3">{t('follow_us')}</div>
-            <div className="flex gap-3.5">
-              {socials.map((s) => (
-                <a key={s.label} href={s.href} aria-label={s.label}
-                  className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition shrink-0">
-                  <img src={s.icon} alt="" className="w-6 h-6" />
-                </a>
-              ))}
+          {socials.length > 0 && (
+            <div className="mt-6">
+              <div className="text-sm tracking-widest text-ink/50 mb-3">{t('follow_us')}</div>
+              <div className="flex gap-3.5">
+                {socials.map((s) => (
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                    className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition shrink-0">
+                    <img src={s.icon} alt="" className="w-6 h-6" />
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div>

@@ -4,11 +4,12 @@ import api from '../services/api';
 import DishCard from '../components/DishCard';
 import categoryIcon from '../utils/categoryIcons';
 import { useI18n } from '../context/I18nContext';
+import { resolveImageUrl } from '../utils/media';
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
   const [categories, setCategories] = useState([]);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   useEffect(() => {
     api.get('/menu').then((res) => setFeatured(res.data.filter((i) => i.is_featured).slice(0, 8)));
@@ -33,10 +34,12 @@ export default function Home() {
         <div className="flex flex-wrap justify-center gap-10">
           {categories.map((c) => (
             <Link key={c.id} to={`/menu?category=${c.id}`} className="flex flex-col items-center gap-3 w-20">
-              <span className="w-16 h-16 rounded-full bg-tag flex items-center justify-center text-3xl">
-                {categoryIcon(c.slug)}
+              <span className="w-16 h-16 rounded-full bg-tag flex items-center justify-center text-3xl overflow-hidden">
+                {c.image_url ? (
+                  <img src={resolveImageUrl(c.image_url)} alt="" className="w-full h-full object-cover" />
+                ) : categoryIcon(c.slug)}
               </span>
-              <span className="text-sm text-ink/70 text-center">{c.name}</span>
+              <span className="text-sm text-ink/70 text-center">{(locale === 'ar' && c.name_ar) ? c.name_ar : c.name}</span>
             </Link>
           ))}
         </div>

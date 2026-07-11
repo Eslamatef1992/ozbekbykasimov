@@ -10,17 +10,17 @@ const Category = {
     const [rows] = await pool.query('SELECT * FROM categories WHERE id = ?', [id]);
     return rows[0] || null;
   },
-  async create({ name, slug, sort_order = 0 }) {
+  async create({ name, name_ar, slug, image_url, sort_order = 0 }) {
     const [result] = await pool.query(
-      'INSERT INTO categories (name, slug, sort_order) VALUES (?, ?, ?)',
-      [name, slug, sort_order]
+      'INSERT INTO categories (name, name_ar, slug, image_url, sort_order) VALUES (?, ?, ?, ?, ?)',
+      [name, name_ar || null, slug, image_url || null, sort_order]
     );
     return result.insertId;
   },
-  async update(id, { name, slug, sort_order, is_active }) {
+  async update(id, { name, name_ar, slug, image_url, sort_order, is_active }) {
     await pool.query(
-      'UPDATE categories SET name = ?, slug = ?, sort_order = ?, is_active = ? WHERE id = ?',
-      [name, slug, sort_order, is_active ? 1 : 0, id]
+      'UPDATE categories SET name = ?, name_ar = ?, slug = ?, image_url = ?, sort_order = ?, is_active = ? WHERE id = ?',
+      [name, name_ar || null, slug, image_url || null, sort_order, is_active ? 1 : 0, id]
     );
   },
   async remove(id) {

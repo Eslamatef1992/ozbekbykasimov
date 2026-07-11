@@ -1,12 +1,12 @@
 const express = require('express');
 const ctrl = require('../controllers/categoryController');
-const { requireAuth, requireAdmin } = require('../middleware/auth');
+const { requireAuth, requirePermission } = require('../middleware/auth');
 
 const router = express.Router();
 
 router.get('/', ctrl.list);
-router.post('/', requireAuth, requireAdmin, ctrl.create);
-router.patch('/:id', requireAuth, requireAdmin, ctrl.update);
-router.delete('/:id', requireAuth, requireAdmin, ctrl.remove);
+router.post('/', requireAuth, requirePermission('menu'), ctrl.create);
+router.patch('/:id', requireAuth, requirePermission('menu'), ctrl.update);
+router.delete('/:id', requireAuth, requirePermission('menu'), ctrl.remove);
 
 module.exports = router;

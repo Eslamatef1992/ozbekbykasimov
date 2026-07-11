@@ -8,19 +8,21 @@ exports.list = asyncHandler(async (req, res) => {
 });
 
 exports.create = asyncHandler(async (req, res) => {
-  const { name, sort_order } = req.body;
+  const { name, name_ar, image_url, sort_order } = req.body;
   if (!name) { res.status(400); throw new Error('name is required'); }
-  const id = await Category.create({ name, slug: slugify(name), sort_order: sort_order || 0 });
+  const id = await Category.create({ name, name_ar, slug: slugify(name), image_url, sort_order: sort_order || 0 });
   res.status(201).json(await Category.findById(id));
 });
 
 exports.update = asyncHandler(async (req, res) => {
   const existing = await Category.findById(req.params.id);
   if (!existing) { res.status(404); throw new Error('Category not found'); }
-  const { name, sort_order, is_active } = req.body;
+  const { name, name_ar, image_url, sort_order, is_active } = req.body;
   await Category.update(req.params.id, {
     name: name ?? existing.name,
+    name_ar: name_ar ?? existing.name_ar,
     slug: name ? slugify(name) : existing.slug,
+    image_url: image_url ?? existing.image_url,
     sort_order: sort_order ?? existing.sort_order,
     is_active: is_active ?? existing.is_active,
   });

@@ -9,6 +9,7 @@
     "dev": "nodemon src/server.js",
     "db:migrate": "node src/utils/migrate.js",
     "db:migrate:user-address": "node src/utils/migrate-user-address.js",
+    "db:migrate:modules": "node src/utils/migrate-modules.js",
     "db:seed": "node src/utils/seed.js"
   },
   "dependencies": {

@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { useI18n } from '../context/I18nContext';
+import { resolveImageUrl } from '../utils/media';
 
 export default function About() {
   const [settings, setSettings] = useState({});
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   useEffect(() => { api.get('/settings').then((res) => setSettings(res.data)); }, []);
+
+  const aboutText = (locale === 'ar' && settings.about_text_ar) ? settings.about_text_ar : settings.about_text;
+  const coffeeText = (locale === 'ar' && settings.about_coffee_text_ar) ? settings.about_coffee_text_ar : settings.about_coffee_text;
+  const reservationPhoto = settings.about_reservation_photo ? resolveImageUrl(settings.about_reservation_photo) : '/images/about/reservation-chef.svg';
 
   return (
     <div>
@@ -19,7 +24,7 @@ export default function About() {
           <div className="section-label mb-5">{t('about_us')}</div>
           <h1 className="page-heading mb-5">{t('about_heading')}</h1>
           <p className="text-ink/60 text-lg leading-relaxed max-w-md">
-            {settings.about_text ||
+            {aboutText ||
               'Lorem ipsum dolor sit amet consectetur. Dolor elit vitae nunc varius. Facilisis eget cras sit semper sit enim. Turpis aliquet at ac eu donec ut. Sagittis vestibulum at quis non massa netus.'}
           </p>
         </div>
@@ -41,14 +46,14 @@ export default function About() {
           <div className="section-label mb-5">{t('coffee_menu')}</div>
           <h2 className="page-heading mb-5">{t('coffee_menu_heading')}</h2>
           <p className="text-ink/60 text-lg leading-relaxed max-w-md">
-            Lorem ipsum dolor sit amet consectetur. Facilisis eget cras sit semper. Sagittis vestibulum at quis.
+            {coffeeText || 'Lorem ipsum dolor sit amet consectetur. Facilisis eget cras sit semper. Sagittis vestibulum at quis.'}
           </p>
         </div>
       </section>
 
       <section className="max-w-6xl mx-auto px-6 pb-20">
         <div className="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[47/25] bg-ink/10">
-          <img src="/images/about/reservation-chef.svg" alt=""
+          <img src={reservationPhoto} alt=""
             className="absolute inset-0 w-full h-full object-cover" />
 
           <div className="hidden sm:flex absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 w-56 md:w-72 bg-black/35 flex-col justify-center items-center text-center px-6 md:px-8">

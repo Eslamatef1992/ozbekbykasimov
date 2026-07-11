@@ -10,6 +10,7 @@ import Menu from './pages/Menu';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 import BookTable from './pages/BookTable';
 import Profile from './pages/Profile';
 import About from './pages/About';
@@ -31,7 +32,10 @@ export default function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/menu/:slug" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+          {/* Checkout is open to guests too (matches "Guest Orders") - CartContext
+              and Checkout.jsx branch on auth state internally instead of gating the route. */}
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/book-table" element={<BookTable />} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/about" element={<About />} />

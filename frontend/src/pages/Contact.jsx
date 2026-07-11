@@ -3,16 +3,18 @@ import { useI18n } from '../context/I18nContext';
 import api from '../services/api';
 import { IconMail, IconPhone } from '../components/icons';
 
-const socials = [
-  { label: 'Facebook', href: '#', icon: '/icons/facebook.svg' },
-  { label: 'Instagram', href: '#', icon: '/icons/instagram.svg' },
-  { label: 'X', href: '#', icon: '/icons/x.svg' },
+const SOCIAL_DEFS = [
+  { key: 'social_facebook', label: 'Facebook', icon: '/icons/facebook.svg' },
+  { key: 'social_instagram', label: 'Instagram', icon: '/icons/instagram.svg' },
+  { key: 'social_x', label: 'X', icon: '/icons/x.svg' },
 ];
 
 export default function Contact() {
   const [settings, setSettings] = useState({});
   const { t } = useI18n();
   useEffect(() => { api.get('/settings').then((res) => setSettings(res.data)); }, []);
+
+  const socials = SOCIAL_DEFS.filter((s) => settings[s.key]).map((s) => ({ ...s, href: settings[s.key] }));
 
   const mapQuery = settings.address && settings.address !== 'TBD'
     ? settings.address
@@ -41,14 +43,16 @@ export default function Contact() {
               <IconPhone className="text-forest shrink-0" width="22" height="22" />
               <span>{settings.contact_phone || '—'}</span>
             </div>
-            <div className="flex gap-3.5">
-              {socials.map((s) => (
-                <a key={s.label} href={s.href} aria-label={s.label}
-                  className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition shrink-0">
-                  <img src={s.icon} alt="" className="w-6 h-6" />
-                </a>
-              ))}
-            </div>
+            {socials.length > 0 && (
+              <div className="flex gap-3.5">
+                {socials.map((s) => (
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                    className="w-12 h-12 rounded-full bg-white flex items-center justify-center hover:opacity-80 transition shrink-0">
+                    <img src={s.icon} alt="" className="w-6 h-6" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -5,6 +5,7 @@ import DishCard from '../components/DishCard';
 import categoryIcon from '../utils/categoryIcons';
 import { IconSearch } from '../components/icons';
 import { useI18n } from '../context/I18nContext';
+import { resolveImageUrl } from '../utils/media';
 
 export default function Menu() {
   const [categories, setCategories] = useState([]);
@@ -12,7 +13,7 @@ export default function Menu() {
   const [search, setSearch] = useState('');
   const [params, setParams] = useSearchParams();
   const activeCategory = params.get('category') || '';
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   useEffect(() => { api.get('/categories').then((res) => setCategories(res.data)); }, []);
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Menu() {
   }, [activeCategory, search]);
 
   const activeCategoryObj = categories.find((c) => String(c.id) === String(activeCategory));
+  const catName = (c) => (locale === 'ar' && c.name_ar) ? c.name_ar : c.name;
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-14">
@@ -30,11 +32,11 @@ export default function Menu() {
         <Link to="/menu" className="hover:text-forest">{t('menu_title')}</Link>
         <span className="mx-1.5">&gt;</span>
         <span>{t('categories')}</span>
-        {activeCategoryObj && <><span className="mx-1.5">&gt;</span><span className="text-ink/70">{activeCategoryObj.name}</span></>}
+        {activeCategoryObj && <><span className="mx-1.5">&gt;</span><span className="text-ink/70">{catName(activeCategoryObj)}</span></>}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
-        <h1 className="page-heading">{activeCategoryObj ? activeCategoryObj.name : t('menu_title')}</h1>
+        <h1 className="page-heading">{activeCategoryObj ? catName(activeCategoryObj) : t('menu_title')}</h1>
         <div className="relative w-full sm:w-72">
           <IconSearch className="absolute left-4 rtl:left-auto rtl:right-4 top-1/2 -translate-y-1/2 text-ink/30" />
           <input
@@ -62,10 +64,12 @@ export default function Menu() {
             onClick={() => setParams({ category: c.id })}
             className="flex flex-col items-center gap-2.5 flex-shrink-0 w-20"
           >
-            <span className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl ${String(activeCategory) === String(c.id) ? 'ring-2 ring-forest bg-tag' : 'bg-tag'}`}>
-              {categoryIcon(c.slug)}
+            <span className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl overflow-hidden ${String(activeCategory) === String(c.id) ? 'ring-2 ring-forest bg-tag' : 'bg-tag'}`}>
+              {c.image_url ? (
+                <img src={resolveImageUrl(c.image_url)} alt="" className="w-full h-full object-cover" />
+              ) : categoryIcon(c.slug)}
             </span>
-            <span className={`text-sm text-center ${String(activeCategory) === String(c.id) ? 'text-forest font-medium' : 'text-ink/60'}`}>{c.name}</span>
+            <span className={`text-sm text-center ${String(activeCategory) === String(c.id) ? 'text-forest font-medium' : 'text-ink/60'}`}>{catName(c)}</span>
           </button>
         ))}
       </div>
